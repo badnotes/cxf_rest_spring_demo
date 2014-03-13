@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://cxf.apache.org/jaxws
+        http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+    <!-- spring定义具体实现的 Bean  -->
+    <bean id="helloService" class="com.badnotes.demo.ws.TestImpl"/>
+
+    <!-- 通过 CXF 提供的 <jaxws:server> 标签，将定义的 Bean 暴露出去成为 Web Service 服务 -->
+    <!-- serviceClass = 接口类 -->
+    <!-- address = 调用时的URL -->
+    <jaxws:server id="helloWebService" serviceClass="com.badnotes.demo.ws.ITest"  address="/hello">
+        <!--要暴露的 bean 的引用，上面定义的bean id-->
+        <jaxws:serviceBean>
+            <ref bean="helloService"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+</beans>
